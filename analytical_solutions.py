@@ -1,4 +1,5 @@
-def theis_solution(k=None,rho=None,filename=None,mu = None,use_mobility=None,
+def theis_solution(permeability_val=None,density_val=None,viscosity_val=None,
+                   filename=None,use_mobility=None,
                    flux_function = None):
     import numpy as np
     import matplotlib.pyplot as plt
@@ -6,15 +7,15 @@ def theis_solution(k=None,rho=None,filename=None,mu = None,use_mobility=None,
     import os
     if filename == None:
         filename = 'simple_theis_k1_csv_pressure_0009.csv'
-    if k == None:
-        k = 1.0 # m2
-    if rho == None:
-        rho = 1.0; #kg/m3
+    if permeability_val == None:
+        permeability_val = 1.0 # m2
+    if density_val == None:
+        density_val = 1.0; #kg/m3
+    if viscosity_val == None:
+        viscosity_val = 1.0; #Pa-s
     dx = 1.071; dy = 1.0; #meters
     if flux_function == None:
         flux_function = -0.233426704015
-    if mu == None:
-        mu = 1.0
     b = 1.0; # thickness (m)
     Kw = 1.0 # compressibility of water (Pa^-1)
     phi = 0.1 # porosity
@@ -26,7 +27,7 @@ def theis_solution(k=None,rho=None,filename=None,mu = None,use_mobility=None,
     print 'well_area ', well_area
 
     if use_mobility:
-        Qm = -flux_function*rho*k/mu*well_area
+        Qm = -flux_function*density_val*permeability_val/viscosity_val*well_area
     else:
         Qm = -flux_function*well_area
     print 'Mass flow rate in (i.e. fluxes_in expected)', Qm
@@ -35,15 +36,15 @@ def theis_solution(k=None,rho=None,filename=None,mu = None,use_mobility=None,
     if ignore_density:
         Q = Qm
     else:
-        Q = Qm/rho
+        Q = Qm/density_val
     print 'volumetric flow rate (checked against Theis)', Q
 
     ## Calculate the analytical solution my way
-    prefactor = 4.0*Q*mu/(4.0*np.pi*b*k) # Pa, multiplier of exponential integral, 4.0 factor is because of 1/4 grid symmetry
+    prefactor = 4.0*Q*viscosity_val/(4.0*np.pi*b*permeability_val) # Pa, multiplier of exponential integral, 4.0 factor is because of 1/4 grid symmetry
     r_anal = np.linspace(1,200,101); #radius in meters
     dP_anal = np.zeros(len(r_anal))
     t_final = 1.e2; # seconds
-    u = (r_anal**2.0)*phi*mu/(4.0*k*t_final*Kw)
+    u = (r_anal**2.0)*phi*viscosity_val/(4.0*permeability_val*t_final*Kw)
     for i in xrange(0,len(u)):
         dP_anal[i] = prefactor*mpmath.e1(u[i])
 
