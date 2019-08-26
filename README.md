@@ -9,8 +9,10 @@ Then set one of the following in your /.bashrc file so that PyMOOSE can find the
 + export POROUS\_FLOW\_DIR=/Users/username/projects/moose/modules/porous\_flow/
 
 ### Importing Python packages:
+```
 import pdata as dat
 import analytical_solutions as a_s
+```
 
 ### Example file
 An example of how to run is shown in /example/example.py
