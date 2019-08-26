@@ -3,9 +3,10 @@ Serves as a python interface to write and run input files for MOOSE PorousFlow s
 
 ### Getting Started
 Ensure that you have installed MOOSE correctly and compiled the porous flow module executable.
-Then set one of the following in your ~/.bashrc file so that PyMOOSE can find the excutable:
-export MOOSE\_DIR=~/projects/moose
-export POROUS\_FLOW\_DIR=~/projects/moose/modules/porous\_flow/
+Then set one of the following in your /.bashrc file so that PyMOOSE can find the excutable:
+
++ export MOOSE\_DIR=/Users/username/projects/moose
++ export POROUS\_FLOW\_DIR=/Users/username/projects/moose/modules/porous\_flow/
 
 ### Importing Python packages:
 import pdata as dat
