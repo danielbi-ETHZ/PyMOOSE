@@ -5,12 +5,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import mpmath
-import os
+import sys, os
+sys.path.append("../")
+
 import pdata as dat
 import analytical_solutions as a_s
 
 ## Initialize plot
-plt.figure(); plt.hold('on')
+plt.figure(); plt.hold('on') # plt.hold is deprecated in recent matplotlib versions... maybe it's not necessary?
 
 ## Set options for the functions
 run = True
@@ -22,9 +24,9 @@ filename = filename_base+'_csv_pressure_0008.csv' #points to the output data, wh
 if run:
     if os.path.exists(filename):
         os.remove(filename)
-dat.run_moose2(input_file=filename_base,run_sim= run,
+dat.run_moose(input_file=filename_base,run_sim= run,
                flux_function_val = flux_function)
-a_s.theis_solution(k=1.,filename=filename,use_mobility = use_mobility,
+a_s.theis_solution(permeability_val=1.,filename=filename,use_mobility = use_mobility,
                    flux_function = flux_function)
 
 plt.legend([
