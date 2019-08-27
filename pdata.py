@@ -13,7 +13,7 @@ import os
 #             porous_flow_dir = os.environ['POROUS_FLOW_DIR']
 #             executable_loc=porous_flow_dir+'/porous_flow-opt'
 #         except:
-#             print 'Must specifiy POROUS_FLOW_DIR'
+#             print('Must specifiy POROUS_FLOW_DIR')
 #     command = 'mpirun -np '+str(np)+' '+executable_loc+' -i '+str(object=input_file)
 #     if run_sim:
 #         os.system(command)
@@ -27,9 +27,9 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     if flux_function_val == None:
         flux_function_val = -0.233426704015
     if permeability_val == None:
-        permeability_val = 1.0;
+        permeability_val = 1.0
     if viscosity_val == None:
-        viscosity_val = 1.0;
+        viscosity_val = 1.0
     if density_val == None:
         density_val = 1.0
     permeability_placeholder = 'permeability_placeholder'
@@ -63,7 +63,7 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
                 moose_dir = os.environ['MOOSE_DIR']
                 executable_loc=porous_flow_dir+'/modules/porous_flow/porous_flow-opt'
             except:
-                print 'Must specifiy POROUS_FLOW_DIR or MOOSE_DIR in ~/.bashrc profile'
+                print('Must specifiy POROUS_FLOW_DIR or MOOSE_DIR in ~/.bashrc profile')
     command = 'mpirun -np '+str(np)+' '+executable_loc+' -i '+str(object=input_file)
     if run_sim:
         os.system(command)
