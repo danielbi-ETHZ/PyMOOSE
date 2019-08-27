@@ -4,6 +4,7 @@
 ## Import relevant things
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as m 
 import mpmath
 import sys, os
 sys.path.append("../")
@@ -12,7 +13,12 @@ import pdata as dat
 import analytical_solutions as a_s
 
 ## Initialize plot
-plt.figure(); plt.hold('on') # plt.hold is deprecated in recent matplotlib versions... maybe it's not necessary?
+# check mpl version as hold is deprecated since 2.2
+vs = m.__version__.strip('.')
+if int(vs[0]) > 2:
+    plt.figure()
+else:
+    plt.figure(); plt.hold('on') 
 
 ## Set options for the functions
 run = True
