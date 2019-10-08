@@ -69,7 +69,7 @@
     #flux_function = -0.0233426704015
     flux_function = flux_function_placeholder
     fluid_phase = 0
-    use_mobility = true
+    use_mobility = use_mobility_placeholder
     save_in = fluxes_in
   [../]
   [./production]
@@ -79,7 +79,7 @@
     flux_function = 0
     # flux_function =  0.0025
     fluid_phase = 0
-    use_mobility = true
+    use_mobility = use_mobility_placeholder
     save_in = fluxes_out
   [../]
  [./injection_heat]
@@ -165,10 +165,10 @@
     [./simple_fluid]
       type = SimpleFluidProperties
       bulk_modulus = 1.0
-      density0 = 1.
+      density0 = density_placeholder
       #density0 = 1.
       thermal_expansion = 0.0
-      viscosity = 1.0
+      viscosity = viscosity_placeholder
       cv = 4.2e3
     [../]
   [../]
@@ -177,7 +177,7 @@
 [Materials]
   [./permeability]
     type = PorousFlowPermeabilityConst
-    permeability = '1 0 0  0 1 0  0 0 1'
+    permeability = 'permeability_placeholder 0 0   0 permeability_placeholder 0   0 0 permeability_placeholder'
   [../]
   [./poro]
     type = PorousFlowPorosityConst
@@ -325,13 +325,13 @@
 []
 
 [Postprocessors]
-  [./outlet_flux]
+  [./outlet_flux_kg_s]
     type = NodalSum
     boundary = productionBC
     variable = fluxes_out
     execute_on = 'timestep_end'
   [../]
-  [./inlet_flux]
+  [./inlet_flux_kg_s]
     type = NodalSum
     boundary = injectionBC
     variable = fluxes_in

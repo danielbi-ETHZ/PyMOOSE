@@ -13,7 +13,7 @@ def theis_solution(permeability_val=None,density_val=None,viscosity_val=None,
         density_val = 1.0; #kg/m3
     if viscosity_val == None:
         viscosity_val = 1.0; #Pa-s
-    dx = 1.071; dy = 1.0; #meters
+    dx = 1.07131; dy = 1.0; #meters
     if flux_function == None:
         flux_function = -0.233426704015
     b = 1.0; # thickness (m)
@@ -24,20 +24,20 @@ def theis_solution(permeability_val=None,density_val=None,viscosity_val=None,
         use_mobility = False
     ## Calculations
     well_area = dx*dy; # well area (m2)
-    print('well_area ', well_area)
+    print 'well_area ', well_area
 
     if use_mobility:
         Qm = -flux_function*density_val*permeability_val/viscosity_val*well_area
     else:
         Qm = -flux_function*well_area
-    print('Mass flow rate in (i.e. fluxes_in expected)', Qm)
+    print 'Mass flow rate in (i.e. fluxes_in expected)', Qm
 
     ignore_density = False #Always False if use_mobility = False. Maybe also if use_mobility = True??
     if ignore_density:
         Q = Qm
     else:
         Q = Qm/density_val
-    print('volumetric flow rate (checked against Theis)', Q)
+    print 'volumetric flow rate (checked against Theis)', Q
 
     ## Calculate the analytical solution my way
     prefactor = 4.0*Q*viscosity_val/(4.0*np.pi*b*permeability_val) # Pa, multiplier of exponential integral, 4.0 factor is because of 1/4 grid symmetry
