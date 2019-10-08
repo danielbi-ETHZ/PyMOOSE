@@ -95,3 +95,26 @@ def flux_function_from_Qv(use_mobility = None, Qv = None, viscosity = None,
     else:
         flux_function = Qv*density/boundary_area;
     return flux_function
+
+def calc_density0(rho_at_P0_T0 = None, P0=None, bulk_modulus = None,
+                  thermal_expansion = None,T0 = None):
+    """
+    This function calculates density0 for SimpleFluidProperties
+    based on a desired density at reference pressure and temp: rho_at_P0_T0
+        where P0 is the reference pressure
+        where T0 is the reference temperature
+        where bulk_modulus and thermal_expansion are from SimpleFluidProperties
+    """
+    import numpy as np
+    if rho_at_P0_T0 == None:
+        rho_at_P0_T0 = 1000.; # kg/m3
+    if P0 == None:
+        P0 = 0.0 # Pa
+    if T0 == None:
+        T0 = 0.0
+    if bulk_modulus == None:
+        bulk_modulus = 1./4.4e-10 #Pa^-1
+    if thermal_expansion == None:
+        thermal_expansion = 0.0
+    density0 = rho_at_P0_T0/np.exp(P0/bulk_modulus - thermal_expansion*T0)
+    return density0
