@@ -23,7 +23,8 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
                template_file = 'template.i',
                flux_function_placeholder='flux_function_placeholder',
                permeability_val = None,viscosity_val = None,
-               density_val = None, use_mobility = None):
+               density_val = None, bulk_modulus_val = None,
+               thermal_expansion_val = None, use_mobility = None):
     if flux_function_val == None:
         flux_function_val = -0.233426704015
     if permeability_val == None:
@@ -32,11 +33,17 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
         viscosity_val = 1.0;
     if density_val == None:
         density_val = 1.0
+    if bulk_modulus_val == None:
+        bulk_modulus_val = 1./4.4e-10 #Pa
+    if thermal_expansion_val == None:
+        thermal_expansion_val = 0.0
     if use_mobility == None:
         use_mobility = False
     permeability_placeholder = 'permeability_placeholder'
     viscosity_placeholder = 'viscosity_placeholder'
     density_placeholder = 'density_placeholder'
+    bulk_modulus_placeholder = 'bulk_modulus_placeholder'
+    thermal_expansion_placeholder = 'thermal_expansion_placeholder'
     use_mobility_placeholder = 'use_mobility_placeholder'
 
     ## Look for flux_function_placeholder (str) in the input file and replace with flux_function_val (float)
@@ -52,6 +59,10 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
             fout.write(line.replace(viscosity_placeholder,str(viscosity_val)))
         elif use_mobility_placeholder in line:
             fout.write(line.replace(use_mobility_placeholder,str(use_mobility)))
+        elif bulk_modulus_placeholder in line:
+            fout.write(line.replace(bulk_modulus_placeholder,str(bulk_modulus_val)))
+        elif thermal_expansion_placeholder in line:
+            fout.write(line.replace(thermal_expansion_placeholder,str(thermal_expansion_val)))
         else:
             fout.write(line.replace(density_placeholder,str(density_val)))
     fin.close()
