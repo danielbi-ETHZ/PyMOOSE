@@ -24,27 +24,56 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
                flux_function_placeholder='flux_function_placeholder',
                permeability_val = None,viscosity_val = None,
                density_val = None, bulk_modulus_val = None,
-               thermal_expansion_val = None, use_mobility = None):
+               thermal_expansion_val = None, use_mobility = None,
+               mesh_file = None, start_time = None, end_time = None):
+    """
+    mesh_file - path the mesh file (str)
+    start_time is restart time in [Executioner] (float)
+    end_time is the end_time in [Executioner] (float)
+    """
     if flux_function_val == None:
         flux_function_val = -0.233426704015
+        print '# WARNING: no flux_function_val was provided to run_mosse'
     if permeability_val == None:
         permeability_val = 1.0;
+        print '# WARNING: no permeability_val was provided to run_mosse'
     if viscosity_val == None:
         viscosity_val = 1.0;
+        print '# WARNING: no viscosity_val was provided to run_mosse'
     if density_val == None:
         density_val = 1.0
+        print '# WARNING: no density_val was provided to run_mosse'
     if bulk_modulus_val == None:
         bulk_modulus_val = 1./4.4e-10 #Pa
+        print '# WARNING: no bulk_modulus_val was provided to run_mosse'
     if thermal_expansion_val == None:
         thermal_expansion_val = 0.0
+        print '# WARNING: no thermal_expansion_val was provided to run_mosse'
     if use_mobility == None:
         use_mobility = False
+        print '# WARNING: no use_mobility was provided to run_mosse'
+    if mesh_file == None:
+        mesh_file = 'mesh.e'
+        print '# WARNING: no mesh_file was provided to run_mosse'
+
+    if start_time == None:
+        start_time = 0.0
+    else:
+        if mesh_file == None:
+            print '# Error: provid mesh file for restart'
+            lakjfsdlkajdflkj
+    if end_time == None:
+        end_time = 365.25*24.*60.*60. # seconds
+        print '# WARNING: no end_time provided'
     permeability_placeholder = 'permeability_placeholder'
     viscosity_placeholder = 'viscosity_placeholder'
     density_placeholder = 'density_placeholder'
     bulk_modulus_placeholder = 'bulk_modulus_placeholder'
     thermal_expansion_placeholder = 'thermal_expansion_placeholder'
     use_mobility_placeholder = 'use_mobility_placeholder'
+    mesh_file_placeholder = 'mesh_file_placeholder'
+    start_time_placeholder = 'start_time_placeholder'
+    end_time_placeholder = 'end_time_placeholder'
 
     ## Look for flux_function_placeholder (str) in the input file and replace with flux_function_val (float)
     fin = open(template_file,'rt')
@@ -63,6 +92,12 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
             fout.write(line.replace(bulk_modulus_placeholder,str(bulk_modulus_val)))
         elif thermal_expansion_placeholder in line:
             fout.write(line.replace(thermal_expansion_placeholder,str(thermal_expansion_val)))
+        elif start_time_placeholder in line:
+            fout.write(line.replace(start_time_placeholder,str(start_time)))
+        elif end_time_placeholder in line:
+            fout.write(line.replace(end_time_placeholder,str(end_time)))
+        elif mesh_file_placeholder in line:
+            fout.write(line.replace(mesh_file_placeholder,mesh_file))
         else:
             fout.write(line.replace(density_placeholder,str(density_val)))
     fin.close()
