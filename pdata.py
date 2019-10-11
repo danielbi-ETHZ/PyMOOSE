@@ -20,6 +20,7 @@ import os
 
 def run_moose(input_file = 'input.i', np = None, executable_loc = None,
                run_sim = True,flux_function_val=None,
+               temp_ic = None, temp_bc = None,
                template_file = 'template.i',
                flux_function_placeholder='flux_function_placeholder',
                permeability_val = None,viscosity_val = None,
@@ -34,6 +35,12 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     if flux_function_val == None:
         flux_function_val = -0.233426704015
         print '# WARNING: no flux_function_val was provided to run_mosse'
+    if temp_ic == None:
+        temp_ic = 293.15
+        print '# WARNING: no temp_ic was provided to run_moose'
+    if temp_bc == None:
+        temp_bc = 293.15
+        print '# WARNING: no temp_bc was provided to run_mosse'
     if permeability_val == None:
         permeability_val = 1.0;
         print '# WARNING: no permeability_val was provided to run_mosse'
@@ -65,6 +72,8 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     if end_time == None:
         end_time = 365.25*24.*60.*60. # seconds
         print '# WARNING: no end_time provided'
+    temp_ic_placeholder  = 'temp_ic_placeholder'
+    temp_bc_placeholder  = 'temp_bc_placeholder'
     permeability_placeholder = 'permeability_placeholder'
     viscosity_placeholder = 'viscosity_placeholder'
     density_placeholder = 'density_placeholder'
@@ -80,7 +89,11 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     fout = open(input_file,'wt')
 
     for line in fin:
-        if permeability_placeholder in line:
+        if temp_ic_placeholder in line:
+            fout.write(line.replace(temp_ic_placeholder,str(temp_ic)))
+        elif temp_bc_placeholder in line:
+            fout.write(line.replace(temp_bc_placeholder,str(temp_bc)))
+        elif permeability_placeholder in line:
             fout.write(line.replace(permeability_placeholder,str(permeability_val)))
         elif flux_function_placeholder in line:
             fout.write(line.replace(flux_function_placeholder,str(flux_function_val)))
