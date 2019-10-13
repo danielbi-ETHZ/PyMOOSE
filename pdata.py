@@ -23,14 +23,18 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
                temp_ic = None, temp_bc = None,
                template_file = 'template.i',
                flux_function_placeholder='flux_function_placeholder',
-               permeability_val = None,viscosity_val = None,
+               permeability_val = None,permeability2 = None,
+               porosity = None, porosity2 = None, viscosity_val = None,
                density_val = None, bulk_modulus_val = None,
                thermal_expansion_val = None, use_mobility = None,
+               lambda_f = None, lambda_s = None,
                mesh_file = None, start_time = None, end_time = None):
     """
     mesh_file - path the mesh file (str)
     start_time is restart time in [Executioner] (float)
     end_time is the end_time in [Executioner] (float)
+    lambda_f is the fluid thermal conductivity
+    lambda_s is the solid thermal conductivity
     """
     if flux_function_val == None:
         flux_function_val = -0.233426704015
@@ -43,7 +47,16 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
         print '# WARNING: no temp_bc was provided to run_mosse'
     if permeability_val == None:
         permeability_val = 1.0;
-        print '# WARNING: no permeability_val was provided to run_mosse'
+        print '# WARNING: no permeability_val was provided to run_moose'
+    if permeability2 == None:
+        permeability2 = 1.0;
+        print '# WARNING: no permeability value was provided to second mateiral'
+    if porosity == None:
+        porosity = 1.0;
+        print '# WARNING: no porosity was provided to run_moose'
+    if porosity2 == None:
+        porosity2 = 1.0;
+        print '# WARNING: no porosity2 was provided to run_moose'
     if viscosity_val == None:
         viscosity_val = 1.0;
         print '# WARNING: no viscosity_val was provided to run_mosse'
@@ -56,6 +69,12 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     if thermal_expansion_val == None:
         thermal_expansion_val = 0.0
         print '# WARNING: no thermal_expansion_val was provided to run_mosse'
+    if lambda_f == None:
+        lambda_f = 0.6; #W/m - K
+        print '# WARNING: no lambda_f was provided to run_mosse'
+    if lambda_s == None:
+        lambda_s = 2.8; # W/m-K
+        print '# WARNING: no lambda_s was provided to run_mosse'
     if use_mobility == None:
         use_mobility = False
         print '# WARNING: no use_mobility was provided to run_mosse'
@@ -75,10 +94,15 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     temp_ic_placeholder  = 'temp_ic_placeholder'
     temp_bc_placeholder  = 'temp_bc_placeholder'
     permeability_placeholder = 'permeability_placeholder'
+    permeability2_placeholder = 'permeability2_placeholder'
+    porosity_placeholder = 'porosity_placeholder'
+    porosity2_placeholder = 'porosity2_placeholder'
     viscosity_placeholder = 'viscosity_placeholder'
     density_placeholder = 'density_placeholder'
     bulk_modulus_placeholder = 'bulk_modulus_placeholder'
     thermal_expansion_placeholder = 'thermal_expansion_placeholder'
+    lambda_f_placeholder = 'lambda_f_placeholder'
+    lambda_s_placeholder = 'lambda_s_placeholder'
     use_mobility_placeholder = 'use_mobility_placeholder'
     mesh_file_placeholder = 'mesh_file_placeholder'
     start_time_placeholder = 'start_time_placeholder'
@@ -95,6 +119,12 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
             fout.write(line.replace(temp_bc_placeholder,str(temp_bc)))
         elif permeability_placeholder in line:
             fout.write(line.replace(permeability_placeholder,str(permeability_val)))
+        elif permeability2_placeholder  in line:
+            fout.write(line.replace(permeability2_placeholder,str(permeability2)))
+        elif porosity_placeholder in line:
+            fout.write(line.replace(porosity_placeholder,str(porosity)))
+        elif porosity2_placeholder in line:
+            fout.write(line.replace(porosity2_placeholder,str(porosity2)))
         elif flux_function_placeholder in line:
             fout.write(line.replace(flux_function_placeholder,str(flux_function_val)))
         elif viscosity_placeholder in line:
@@ -103,6 +133,12 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
             fout.write(line.replace(use_mobility_placeholder,str(use_mobility)))
         elif bulk_modulus_placeholder in line:
             fout.write(line.replace(bulk_modulus_placeholder,str(bulk_modulus_val)))
+
+        elif lambda_s_placeholder in line:
+            fout.write(line.replace(lambda_s_placeholder,str(lambda_s)))
+        elif lambda_f_placeholder in line:
+            fout.write(line.replace(lambda_f_placeholder,str(lambda_f)))
+
         elif thermal_expansion_placeholder in line:
             fout.write(line.replace(thermal_expansion_placeholder,str(thermal_expansion_val)))
         elif start_time_placeholder in line:
