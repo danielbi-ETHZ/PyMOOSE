@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpmath
 import os
+try:
+    from __future__ import print_function
+except ModuleNotFoundError:
+    pass
 
 # def run_moose(input_file = 'simple_theis.i', np = None, executable_loc = None,run_sim = True):
 #     if np == None:
@@ -13,7 +17,7 @@ import os
 #             porous_flow_dir = os.environ['POROUS_FLOW_DIR']
 #             executable_loc=porous_flow_dir+'/porous_flow-opt'
 #         except:
-#             print 'Must specifiy POROUS_FLOW_DIR'
+#             print('Must specifiy POROUS_FLOW_DIR')
 #     command = 'mpirun -np '+str(np)+' '+executable_loc+' -i '+str(object=input_file)
 #     if run_sim:
 #         os.system(command)
@@ -38,59 +42,59 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
     """
     if flux_function_val == None:
         flux_function_val = -0.233426704015
-        print '# WARNING: no flux_function_val was provided to run_mosse'
+        print('# WARNING: no flux_function_val was provided to run_mosse')
     if temp_ic == None:
         temp_ic = 293.15
-        print '# WARNING: no temp_ic was provided to run_moose'
+        print('# WARNING: no temp_ic was provided to run_moose')
     if temp_bc == None:
         temp_bc = 293.15
-        print '# WARNING: no temp_bc was provided to run_mosse'
+        print('# WARNING: no temp_bc was provided to run_mosse')
     if permeability_val == None:
         permeability_val = 1.0;
-        print '# WARNING: no permeability_val was provided to run_moose'
+        print('# WARNING: no permeability_val was provided to run_moose')
     if permeability2 == None:
         permeability2 = 1.0;
-        print '# WARNING: no permeability value was provided to second mateiral'
+        print('# WARNING: no permeability value was provided to second mateiral')
     if porosity == None:
         porosity = 1.0;
-        print '# WARNING: no porosity was provided to run_moose'
+        print('# WARNING: no porosity was provided to run_moose')
     if porosity2 == None:
         porosity2 = 1.0;
-        print '# WARNING: no porosity2 was provided to run_moose'
+        print('# WARNING: no porosity2 was provided to run_moose')
     if viscosity_val == None:
         viscosity_val = 1.0;
-        print '# WARNING: no viscosity_val was provided to run_mosse'
+        print('# WARNING: no viscosity_val was provided to run_mosse')
     if density_val == None:
         density_val = 1.0
-        print '# WARNING: no density_val was provided to run_mosse'
+        print('# WARNING: no density_val was provided to run_mosse')
     if bulk_modulus_val == None:
         bulk_modulus_val = 1./4.4e-10 #Pa
-        print '# WARNING: no bulk_modulus_val was provided to run_mosse'
+        print('# WARNING: no bulk_modulus_val was provided to run_mosse')
     if thermal_expansion_val == None:
         thermal_expansion_val = 0.0
-        print '# WARNING: no thermal_expansion_val was provided to run_mosse'
+        print('# WARNING: no thermal_expansion_val was provided to run_mosse')
     if lambda_f == None:
         lambda_f = 0.6; #W/m - K
-        print '# WARNING: no lambda_f was provided to run_mosse'
+        print('# WARNING: no lambda_f was provided to run_mosse')
     if lambda_s == None:
         lambda_s = 2.8; # W/m-K
-        print '# WARNING: no lambda_s was provided to run_mosse'
+        print('# WARNING: no lambda_s was provided to run_mosse')
     if use_mobility == None:
         use_mobility = False
-        print '# WARNING: no use_mobility was provided to run_mosse'
+        print('# WARNING: no use_mobility was provided to run_mosse')
     if mesh_file == None:
         mesh_file = 'mesh.e'
-        print '# WARNING: no mesh_file was provided to run_mosse'
+        print('# WARNING: no mesh_file was provided to run_mosse')
 
     if start_time == None:
         start_time = 0.0
     else:
         if mesh_file == None:
-            print '# Error: provid mesh file for restart'
+            print('# Error: provid mesh file for restart')
             lakjfsdlkajdflkj
     if end_time == None:
         end_time = 365.25*24.*60.*60. # seconds
-        print '# WARNING: no end_time provided'
+        print('# WARNING: no end_time provided')
     temp_ic_placeholder  = 'temp_ic_placeholder'
     temp_bc_placeholder  = 'temp_bc_placeholder'
     permeability_placeholder = 'permeability_placeholder'
@@ -163,7 +167,7 @@ def run_moose(input_file = 'input.i', np = None, executable_loc = None,
                 moose_dir = os.environ['MOOSE_DIR']
                 executable_loc=porous_flow_dir+'/modules/porous_flow/porous_flow-opt'
             except:
-                print 'Must specifiy POROUS_FLOW_DIR or MOOSE_DIR in ~/.bashrc profile'
+                print('Must specifiy POROUS_FLOW_DIR or MOOSE_DIR in ~/.bashrc profile')
     command = 'mpirun -np '+str(np)+' '+executable_loc+' -i '+str(object=input_file)
     if run_sim:
         os.system(command)
