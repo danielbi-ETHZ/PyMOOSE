@@ -38,7 +38,7 @@ def theis_solution(permeability_val=None,density_val=None,viscosity_val=None,
     if well_area == None:
         dx = 1.07131; dy = 1.0; #meters
         well_area = dx*dy; # well area (m2)
-        print 'well_area ', well_area
+        print('well_area ', well_area)
 
     ## Calculations
 
@@ -46,14 +46,14 @@ def theis_solution(permeability_val=None,density_val=None,viscosity_val=None,
         Qm = -flux_function*density_val*permeability_val/viscosity_val*well_area
     else:
         Qm = -flux_function*well_area
-    print 'Mass flow rate in (i.e. fluxes_in expected)', Qm
+    print('Mass flow rate in (i.e. fluxes_in expected)', Qm)
 
     ignore_density = False #Always False if use_mobility = False. Maybe also if use_mobility = True??
     if ignore_density:
         Q = Qm
     else:
         Q = Qm/density_val
-    print 'volumetric flow rate (checked against Theis)', Q
+    print('volumetric flow rate (checked against Theis)', Q)
 
     ## Calculate the analytical solution my way
     import pudb; pudb.set_trace()
@@ -152,3 +152,30 @@ def Postprocessors_plot_over_time(filename = None):
                 # pp = np.append([pp],[row[-1]]);
 
     return [t, uz_0, uz_1]
+
+def LineValueSampler_plot_over_x(filename = None):
+    """
+    This plots the values over time from a LineValueSampler from [VectorPosptroccessor] with
+    sort_by = x and outputs = csv.
+    """
+    import csv
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import mpmath
+    import os
+
+    x = np.zeros(0)
+    var = np.zeros(0);
+    with open(filename) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                junkvar = 1
+                line_count += 1
+            else:
+                x = np.append(x,float(row[0]))
+                var = np.append(var,float(row[-1]))
+
+    return [x, var]
+
